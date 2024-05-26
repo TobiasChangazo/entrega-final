@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vestamodda</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="vesta.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Vestamodda</h1>
+    </header>
+    <main>
+        <section id="ListaProductos"></section>
+        <button id="VerCarrito">Ver Carrito</button>
+        <div id="CarritoModal" class="modal">
+            <div class="modal-content">
+                <span id="CerrarCarrito" class="close">&times;</span>
+                <center>PRODUCTOS</center>
+                <br>
+                <button id="VaciarCarrito">Vaciar Carrito</button>
+                <ul id="CarritoProductos"></ul>
+                <button id="ChequeoCompra">Finalizar Compra</button>
+            </div>
+        </div>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+</html>
