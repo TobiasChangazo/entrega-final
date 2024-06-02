@@ -1,23 +1,4 @@
-const mercaderia = [
-    {
-        id: 1,
-        nombre: "ADIDAS FORUM",
-        precio: 70000,
-        imagen: "img/zapa1.jpg",
-    },
-    {
-        id: 2,
-        nombre: "NIKE SB GRIS",
-        precio: 60000,
-        imagen: "img/zapa2.jpg",
-    },
-    {
-        id: 3,
-        nombre: "ADIDAS SAMBA",
-        precio: 65000,
-        imagen: "img/zapa3.jpg",
-    },
-];
+let mercaderia = []
 
 const Carrito = JSON.parse(localStorage.getItem('Carrito')) || [];
 
@@ -181,5 +162,11 @@ document.getElementById('CerrarCarrito').addEventListener('click', () => {
     document.getElementById('CarritoModal').style.display = 'none';
 });
 
-RenderMercaderia();
+fetch('./js/data.json')
+    .then(response => response.json())
+    .then(data => {
+        mercaderia = data;
+        RenderMercaderia();
+    })
+
 RenderCarrito();
