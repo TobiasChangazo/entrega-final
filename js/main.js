@@ -1,6 +1,6 @@
 let mercaderia = [];
 
-const Carrito = JSON.parse(localStorage.getItem('Carrito')) || [];
+let Carrito = JSON.parse(localStorage.getItem('Carrito')) || [];
 
 function RenderMercaderia() {
     const ListaProductos = document.getElementById('ListaProductos');
@@ -11,7 +11,7 @@ function RenderMercaderia() {
         productosDiv.innerHTML = `
             <img src="${producto.imagen}" alt="${producto.nombre}">
             <h2>${producto.nombre}</h2>
-            <p>$${producto.precio}</p>
+            <p class="precio">$${producto.precio}</p>
             <button onclick="AgregarAlCarrito(${producto.id})">Agregar al Carrito</button>
         `;
         ListaProductos.appendChild(productosDiv);
@@ -25,8 +25,13 @@ function RenderCarrito() {
         const ProductosEnCarrito = document.createElement('li');
         ProductosEnCarrito.className = 'carrito-item';
         ProductosEnCarrito.innerHTML = `
-            <img src="${item.imagen}" alt="${item.nombre}">
-            ${item.nombre} - $${item.precio} x${item.cantidad} 
+            <div class="item-info">
+                <img src="${item.imagen}" alt="${item.nombre}">
+                <div>
+                    <h3>${item.nombre}</h3>
+                    <p class="precio">$${item.precio} x${item.cantidad}</p>
+                </div>
+            </div>
             <button onclick="ConfirmarEliminarDelCarrito(${item.id})">Eliminar</button>
         `;
         CarritoProductos.appendChild(ProductosEnCarrito);
@@ -53,14 +58,14 @@ function AgregarAlCarrito(IDproducto) {
         timer: 1700,
         timerProgressBar: true,
         didOpen: (toast) => {
-          toast.onmouseenter = Swal.stopTimer;
-          toast.onmouseleave = Swal.resumeTimer;
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
         }
-      });
-      Toast.fire({
+    });
+    Toast.fire({
         icon: "success",
         title: '¡Producto Agregado al carrito!',
-      });
+    });
 }
 
 function ActualizarCantidad(IDproducto, cantidad) {
@@ -125,7 +130,7 @@ document.getElementById('VaciarCarrito').addEventListener('click', () => {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                Carrito.splice(0, Carrito.length);
+                Carrito = [];
                 RenderCarrito();
                 Swal.fire(
                     'Realizado con Exito',
@@ -149,9 +154,7 @@ document.getElementById('ChequeoCompra').addEventListener('click', () => {
             confirmButtonText: 'Aceptar'
         }).then(() => {
             localStorage.removeItem('Carrito');
-            while (Carrito.length) {
-                Carrito.pop();
-            }
+            Carrito = [];
             RenderCarrito();
             document.getElementById('CarritoModal').style.display = 'none';
         });
