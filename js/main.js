@@ -1,4 +1,4 @@
-let mercaderia = []
+let mercaderia = [];
 
 const Carrito = JSON.parse(localStorage.getItem('Carrito')) || [];
 
@@ -113,45 +113,49 @@ function EliminarDelCarrito(IDproducto) {
 }
 
 document.getElementById('VaciarCarrito').addEventListener('click', () => {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: '¿Deseas vaciar el carrito?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, vaciar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Carrito.splice(0, Carrito.length);
-            RenderCarrito();
-            Swal.fire(
-                'Realizado con Exito',
-                'El carrito ha sido vaciado.',
-                'success'
-            );
-        }
-    });
+    if (Carrito.length > 0) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas vaciar el carrito?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, vaciar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Carrito.splice(0, Carrito.length);
+                RenderCarrito();
+                Swal.fire(
+                    'Realizado con Exito',
+                    'El carrito ha sido vaciado.',
+                    'success'
+                );
+            }
+        });
+    }
 });
 
 // Limpia el carrito una vez finalizada la compra y muestra el total a pagar con SweetAlert
 
 document.getElementById('ChequeoCompra').addEventListener('click', () => {
-    const total = Carrito.reduce((suma, producto) => suma + (producto.precio * producto.cantidad), 0);
-    Swal.fire({
-        title: 'Compra Finaliza!',
-        text: `Total a pagar: $${total}`,
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    }).then(() => {
-        localStorage.removeItem('Carrito');
-        while (Carrito.length) {
-            Carrito.pop();
-        }
-        RenderCarrito();
-        document.getElementById('CarritoModal').style.display = 'none';
-    });
+    if (Carrito.length > 0) {
+        const total = Carrito.reduce((suma, producto) => suma + (producto.precio * producto.cantidad), 0);
+        Swal.fire({
+            title: 'Compra Finaliza!',
+            text: `Total a pagar: $${total}`,
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            localStorage.removeItem('Carrito');
+            while (Carrito.length) {
+                Carrito.pop();
+            }
+            RenderCarrito();
+            document.getElementById('CarritoModal').style.display = 'none';
+        });
+    }
 });
 
 document.getElementById('VerCarrito').addEventListener('click', () => {
